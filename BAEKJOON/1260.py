@@ -30,3 +30,5 @@ for i in range(1, int(n)+1):
 
 while (len(B_List)<n):
     List
+    
+#not end
