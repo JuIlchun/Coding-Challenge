@@ -2,8 +2,7 @@ import sys
 
 num=int(sys.stdin.readline().rstrip())
 List=[sys.stdin.readline().rstrip() for _ in range(num)]
-List=set(List)
-List=list(List)
+List=list(set(List))
 
 List.sort(key=lambda x: (len(x),x))
 
