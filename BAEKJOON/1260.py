@@ -2,18 +2,34 @@ import sys
 
 def DFS(n,m,v,List=[]):
     count=0
+    ind_f=0
+    ind_s=0
+    sys.stdout.write(f"{v} ")
     for x in range(m):
-        if (List[x][0] not in D_List) and (List[x][1] not in D_List):
-            if v==List[x][0]:
-                D_List.append(v)
-                DFS(n,m,List[x][1],List)
-        if x==m-1: count=1
-    if count==1:
-        for x in range(m):
-            if (List[x][0] not in D_List) and (List[x][1] not in D_List):
-                if v==List[x][1]:
-                    D_List.append(v)
-                    DFS(n,m,List[x][0],List)
+        if v==List[x][0]:
+            ind_f=List[x][1]
+            break
+    for x in range(m):
+        if v==List[x][1]:
+            ind_s=List[x][0]
+            break
+    if ind_f==0 and ind_s!=0:
+        D_List.append(v)
+        DFS(n,m,List[ind_s],List)
+    if ind_s==0 and ind_f!=0:
+        D_List.append(v)
+        DFS(n,m,List[ind_f],List)
+    if ind_f!=0 and ind_s!=0:
+        if ind_f>ind_s:
+            D_List.append(v)
+            DFS(n,m,List[ind_s],List)
+        elif ind_s>ind_f:
+            D_List.append(v)
+            DFS(n,m,List[ind_f],List)
+    if ind_f==0 and ind_s==0:
+        DFS(n,m,List[ind_f],List)
+
+    
 
 n,m,v=sys.stdin.readline().rstrip().split(" ")
 
@@ -27,25 +43,26 @@ D_List=[]
 B_List=[]
 
 DFS(int(n),int(m),int(v),List)
-
-for x in D_List: sys.stdout.write(f"{x} ")
 sys.stdout.write("\n")
 
 B_List.append(int(v))
+que=[v]
 index=1
-while (len(B_List)<int(n)):
+while (len(que)>0):
+    v=que[0]
     count=0
     for x in range(int(m)):
         if int(v)==List[x][0]:
             if List[x][1] not in B_List:
                 B_List.append(List[x][1])
+                que.append(List[x][1])
         if x==int(m)-1:count=1
     for x in range(int(m)):
         if int(v)==List[x][1]:
             if List[x][0] not in B_List:
                 B_List.append(List[x][0])
-    v=B_List[index]
+                que.append(List[x][0])
+    del que[0]
     index+=1
         
 for x in B_List: sys.stdout.write(f"{x} ")
-#not end
